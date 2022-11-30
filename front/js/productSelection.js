@@ -1,5 +1,5 @@
 
-// Récupération de la chaîne de requête dans l'url
+
 const paramSearch = new URLSearchParams(window.location.search);
 const id = paramSearch.get('id');
 console.log(id);
