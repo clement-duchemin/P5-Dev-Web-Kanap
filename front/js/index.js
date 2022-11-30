@@ -1,7 +1,7 @@
 
 
 
-//Get all product from server 
+
 
 let fetchProducts = () => {
     fetch('http://localhost:3000/api/products')
