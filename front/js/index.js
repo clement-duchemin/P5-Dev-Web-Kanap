@@ -1,4 +1,4 @@
-// Url to get datas from the API
+
 
 
 //Get all product from server 
