@@ -4,7 +4,7 @@
 ////////////////// PANIER //////////////////////////////
 
 // Je récupère les produits stockés dans le localstorage
-let basket = JSON.parse(localStorage.getItem("localBasket"));
+let productInLocalStorage = JSON.parse(localStorage.getItem("localBasket"));
 
 // Je récupère les données des produits par ID depuis l'API pour obtenir le prix de chaque produit
  getProductDatas = async (idProduct) => {
@@ -20,13 +20,13 @@ let basket = JSON.parse(localStorage.getItem("localBasket"));
 
 // J'affiche les produits du panier
 getBasket = async () => {
-  if (basket === null || basket == 0) {
+  if (productInLocalStorage === null || productInLocalStorage == 0) {
     let h1 = document.querySelector('h1');
     h1.innerText = "Votre panier est vide";
   } else {
-    for (let i = 0; i < basket.length; i++) {
+    for (let i = 0; i < productInLocalStorage.length; i++) {
 // Je met dans la variable item, le produit sélectionné dans le panier à chaque tour de boucle jusqu'à ce qu'il y en ait plus.      
-      let item = basket[i];
+      let item = productInLocalStorage[i];
 // La méthode await met le code en pause pendant que la fonction getProductDatas récupère les données
 // du produit sélectionné par ID, depuis l'API. 
       let productData = await getProductDatas(item.id);
@@ -73,10 +73,10 @@ changeQty = () => {
       event.preventDefault();
         // La nouvelle quantité du produit selectionné sera envoyée dans le localStorage.
         let newValue = inputQty[i].value;
-        let item = basket[i];
+        let item = productInLocalStorage[i];
         item.quantity = newValue;
         // Ces données seront converties en chaîne de caractère.
-        localStorage.setItem("localBasket", JSON.stringify(basket));
+        localStorage.setItem("localBasket", JSON.stringify(productInLocalStorage));
         // J'appelle les fonctions suivantes pour mettre à jour la quantité totale d'articles 
         // dans le panier ainsi que le prix total après modification.
         productTotal();
@@ -95,12 +95,12 @@ deleteProduct = () => {
       if (confirm("Voulez-vous supprimer cet article du panier ? ") == true) {
        // L'ID et la couleur du produit sélectionné dans le localStorage
        // sont enregistré dans les variables suivantes.
-        let deletedProductId = basket[i].id;
-        let deletedProductColor = basket[i].color;
+        let deletedProductId = productInLocalStorage[i].id;
+        let deletedProductColor = productInLocalStorage[i].color;
         // Le produit cliqué par le bouton supprimer est filtré par son ID ou sa couleur.
-        basket = basket.filter(item => item.id !== deletedProductId || item.color !== deletedProductColor);
+        productInLocalStorage = productInLocalStorage.filter(item => item.id !== deletedProductId || item.color !== deletedProductColor);
         // Les nouvelles données sont envoyées au localStorage en étant changées en chaîne de caractères.
-        localStorage.setItem("localBasket", JSON.stringify(basket));
+        localStorage.setItem("localBasket", JSON.stringify(productInLocalStorage));
         // La page est automatiquement rechargée pour ne plus afficher les produits supprimés.
         window.location.reload();
       }
@@ -126,9 +126,9 @@ productTotal = () => {
 priceTotal = async () => {
   let totalPrice = 0;
   const qty = document.querySelectorAll(".itemQuantity");
-  for (let i = 0; i < basket.length; i++) {
+  for (let i = 0; i < productInLocalStorage.length; i++) {
     // Je met dans la variable item, le produit sélectionné par la boucle d'incrémentation "for" dans l'API.
-    let item = basket[i];
+    let item = productInLocalStorage[i];
     // La méthode await met le code en pause pendant que la fonction getProductDatas récupère les données
     // du produit sélectionné par son ID, depuis l'API.
     productData = await getProductDatas(item.id);
@@ -211,7 +211,7 @@ orderBtn.addEventListener("click", (e) => {
   else if (firstNameErr.innerHTML !== "" || lastNameErr.innerHTML !== "" || addressErr.innerHTML !== "" || cityErr.innerHTML !== "" || emailErr.innerHTML !== "") {
     alert("Veuillez vérifier les erreurs dans le formulaire");
   }
-  else if (basket === null || basket == 0) {
+  else if (productInLocalStorage === null || productInLocalStorage == 0) {
     alert('Votre panier est vide, veuillez choisir un article');
     window.location.href = "index.html";
   }
@@ -219,8 +219,8 @@ orderBtn.addEventListener("click", (e) => {
 
     let basketItems = [];
 
-    for (let i = 0; i < basket.length; i++) {
-      basketItems.push(basket[i].id);
+    for (let i = 0; i < productInLocalStorage.length; i++) {
+      basketItems.push(productInLocalStorage[i].id);
     }
 // Les informations du formulaire et les produits sélectionnés sont récupérés
 // dans l'objet order.    

@@ -8,7 +8,7 @@ const fetchProducts = async () => {
     const res = await fetch('http://localhost:3000/api/products');
     // Cette deuxième promesse transforme la réponse du fetch en json pour permettre
     // au navigateur de l'interpréter. Elle est contenue dans la variable data puis passé en argument
-    // dans la fonction listProducts qui affice les produits de l'API.
+    // dans la fonction displayProducts qui affiche les produits de l'API.
     const data = await res.json();
 
         displayProducts(data);
